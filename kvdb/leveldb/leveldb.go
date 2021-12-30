@@ -55,6 +55,14 @@ func New(path string, cache int, handles int, close func() error, drop func()) (
 		BlockCacheCapacity:     cache / 2,
 		WriteBuffer:            cache / 4, // Two of these are used internally
 		Filter:                 filter.NewBloomFilter(10),
+
+		CompactionTableSize:           10 * 1024 * 1024, // default: 2 * 1024 * 1024 (2 MB)
+		CompactionTableSizeMultiplier: 1.5,              // default: 1
+
+		CompactionTotalSize:           50 * 1024 * 1024,  // default: 10 * 1024 * 1024 (10 MB)
+		CompactionTotalSizeMultiplier: 10,                // default: 10
+		Compression:                   opt.NoCompression, // default is Snappy compression
+
 	})
 	if _, corrupted := err.(*errors.ErrCorrupted); corrupted {
 		db, err = leveldb.RecoverFile(path, nil)
