@@ -59,7 +59,8 @@ func (p *SyncedPool) Initialize(dbNames []string) error {
 			return err
 		}
 	}
-	return p.checkDBsSynced()
+	// not checking dirty state, just returning without error
+	return nil
 }
 
 func (p *SyncedPool) callbacks(name string) (
